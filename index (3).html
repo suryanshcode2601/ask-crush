@@ -1,0 +1,2402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AskHer — The Most Romantic Way to Ask</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════
+   VARIABLES
+═══════════════════════════════════════ */
+:root {
+  --rose:    #D6446A;
+  --rose-lt: #F28EA8;
+  --blush:   #FDE8EE;
+  --cream:   #FDF7F2;
+  --wine:    #7B1D3E;
+  --gold:    #C9924A;
+  --charcoal:#1C0C14;
+  --muted:   #8A6070;
+  --white:   #FFFFFF;
+  --border:  #F0CDD6;
+  --shadow:  rgba(214,68,106,0.12);
+
+  --ff-display: 'Cormorant Garamond', Georgia, serif;
+  --ff-script:  'Dancing Script', cursive;
+  --ff-body:    'DM Sans', sans-serif;
+  --ff-serif:   'Playfair Display', serif;
+
+  --r-sm: 12px;
+  --r-md: 20px;
+  --r-lg: 32px;
+  --r-xl: 48px;
+
+  --trans: 0.22s cubic-bezier(.4,0,.2,1);
+}
+
+/* ═══════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family: var(--ff-body);
+  background: var(--cream);
+  color: var(--charcoal);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+button { cursor:pointer; font-family: var(--ff-body); }
+input, textarea, select {
+  font-family: var(--ff-body);
+  outline:none;
+}
+.hidden { display:none !important; }
+img { display:block; max-width:100%; }
+
+/* ═══════════════════════════════════════
+   FLOATING HEARTS (global)
+═══════════════════════════════════════ */
+#hearts-bg {
+  position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden;
+}
+.fh {
+  position:absolute; opacity:0;
+  animation: floatHeart linear infinite;
+}
+@keyframes floatHeart {
+  0%   { transform:translateY(105vh) rotate(0deg) scale(1);   opacity:0; }
+  10%  { opacity:0.55; }
+  90%  { opacity:0.3; }
+  100% { transform:translateY(-8vh)  rotate(25deg) scale(0.7); opacity:0; }
+}
+
+/* ═══════════════════════════════════════
+   PAGE SYSTEM
+═══════════════════════════════════════ */
+.page {
+  min-height:100vh;
+  position:relative;
+  z-index:1;
+}
+.page-enter {
+  animation: pageIn 0.45s var(--trans) both;
+}
+@keyframes pageIn {
+  from { opacity:0; transform:translateY(18px); }
+  to   { opacity:1; transform:none; }
+}
+
+/* ═══════════════════════════════════════
+   LANDING — NAV
+═══════════════════════════════════════ */
+.landing-nav {
+  position:fixed; top:0; left:0; right:0; z-index:200;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 max(2rem, 5vw);
+  height:64px;
+  background:rgba(253,247,242,0.88);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo {
+  font-family: var(--ff-display);
+  font-size:1.7rem; font-weight:600;
+  color:var(--rose); letter-spacing:-0.5px;
+}
+.nav-logo span { color:var(--charcoal); }
+.nav-cta {
+  background:var(--rose); color:#fff;
+  border:none; border-radius:50px;
+  padding:0.5rem 1.4rem; font-size:0.875rem; font-weight:500;
+  transition:background var(--trans), transform var(--trans);
+}
+.nav-cta:hover { background:var(--wine); transform:translateY(-1px); }
+
+/* ═══════════════════════════════════════
+   LANDING — HERO
+═══════════════════════════════════════ */
+.hero {
+  min-height:100vh;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  text-align:center;
+  padding:5rem 1.5rem 3rem;
+  background: radial-gradient(ellipse 80% 60% at 50% 30%, #FDE8EE 0%, var(--cream) 70%);
+  position:relative; overflow:hidden;
+}
+.hero::before {
+  content:'';
+  position:absolute; inset:0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D6446A' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;
+}
+.hero-badge {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  background:#fff; border:1px solid var(--border);
+  border-radius:50px; padding:0.35rem 1rem;
+  font-size:0.78rem; font-weight:500; color:var(--wine);
+  margin-bottom:1.8rem;
+  box-shadow:0 2px 12px var(--shadow);
+  animation:fadeDown 0.6s var(--trans) both;
+}
+.hero-badge::before { content:'♥'; color:var(--rose); }
+@keyframes fadeDown { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:none} }
+
+.hero-h1 {
+  font-family:var(--ff-display);
+  font-size:clamp(3rem,8vw,6.5rem);
+  font-weight:300;
+  line-height:1.05;
+  letter-spacing:-1px;
+  color:var(--charcoal);
+  animation:fadeUp 0.7s 0.1s var(--trans) both;
+}
+.hero-h1 em {
+  font-style:italic; color:var(--rose);
+  font-weight:600;
+}
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+
+.hero-sub {
+  font-size:1.1rem; color:var(--muted); font-weight:300;
+  max-width:480px; line-height:1.65; margin:1.2rem auto 2.2rem;
+  animation:fadeUp 0.7s 0.2s var(--trans) both;
+}
+.hero-actions {
+  display:flex; gap:1rem; flex-wrap:wrap; justify-content:center;
+  animation:fadeUp 0.7s 0.3s var(--trans) both;
+}
+.btn-hero {
+  background:linear-gradient(135deg,var(--rose),var(--wine));
+  color:#fff; border:none;
+  padding:0.9rem 2.4rem; border-radius:50px;
+  font-size:1rem; font-weight:500;
+  box-shadow:0 8px 28px rgba(214,68,106,0.32);
+  transition:all var(--trans);
+  position:relative; overflow:hidden;
+}
+.btn-hero::after {
+  content:''; position:absolute; inset:0;
+  background:rgba(255,255,255,0);
+  transition:background var(--trans);
+}
+.btn-hero:hover { transform:translateY(-2px); box-shadow:0 12px 36px rgba(214,68,106,0.4); }
+.btn-hero:hover::after { background:rgba(255,255,255,0.08); }
+.btn-ghost {
+  background:transparent; border:1.5px solid var(--border);
+  color:var(--muted); padding:0.9rem 2rem; border-radius:50px;
+  font-size:1rem; font-weight:400;
+  transition:all var(--trans);
+}
+.btn-ghost:hover { border-color:var(--rose); color:var(--rose); background:var(--blush); }
+
+.hero-proof {
+  margin-top:3rem;
+  font-size:0.82rem; color:var(--muted); letter-spacing:0.3px;
+  animation:fadeUp 0.7s 0.4s var(--trans) both;
+}
+.hero-proof strong { color:var(--rose); }
+
+/* hero hearts decorative */
+.hero-deco {
+  position:absolute; font-size:2.5rem; opacity:0.1;
+  animation:decoFloat 6s ease-in-out infinite alternate;
+  pointer-events:none;
+}
+@keyframes decoFloat {
+  from { transform:translateY(0) rotate(-5deg); }
+  to   { transform:translateY(-20px) rotate(5deg); }
+}
+
+/* ═══════════════════════════════════════
+   LANDING — SECTION SHARED
+═══════════════════════════════════════ */
+.section {
+  padding:5rem max(1.5rem,5vw);
+  position:relative; z-index:1;
+}
+.section-label {
+  font-size:0.7rem; letter-spacing:3px; font-weight:600;
+  text-transform:uppercase; color:var(--rose);
+  margin-bottom:0.8rem;
+}
+.section-h2 {
+  font-family:var(--ff-display);
+  font-size:clamp(2rem,4vw,3.2rem);
+  font-weight:400; line-height:1.15;
+  letter-spacing:-0.5px;
+}
+.section-h2 em { font-style:italic; color:var(--rose); font-weight:600; }
+.section-p {
+  color:var(--muted); font-size:1rem; line-height:1.7;
+  max-width:500px; margin-top:0.7rem;
+}
+
+/* ═══════════════════════════════════════
+   LANDING — HOW IT WORKS
+═══════════════════════════════════════ */
+.how {
+  background:#fff;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+.how-inner {
+  max-width:1100px; margin:0 auto;
+  text-align:center;
+}
+.how-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:2rem; margin-top:3rem;
+}
+.how-card {
+  padding:2rem 1.5rem; border-radius:var(--r-md);
+  background:var(--cream); border:1px solid var(--border);
+  position:relative;
+  transition:transform var(--trans), box-shadow var(--trans);
+}
+.how-card:hover { transform:translateY(-4px); box-shadow:0 12px 40px var(--shadow); }
+.how-num {
+  font-family:var(--ff-display); font-size:4rem; font-weight:300;
+  color:var(--rose); opacity:0.2; line-height:1;
+  position:absolute; top:1rem; right:1.2rem;
+}
+.how-icon { font-size:2.2rem; margin-bottom:1rem; }
+.how-title {
+  font-family:var(--ff-display); font-size:1.3rem;
+  font-weight:600; margin-bottom:0.5rem;
+}
+.how-desc { font-size:0.9rem; color:var(--muted); line-height:1.6; }
+
+/* ═══════════════════════════════════════
+   LANDING — FEATURES PREVIEW
+═══════════════════════════════════════ */
+.features-section { max-width:1100px; margin:0 auto; }
+.features-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:1rem; margin-top:2.5rem;
+}
+.feat-chip {
+  background:#fff; border:1px solid var(--border); border-radius:var(--r-sm);
+  padding:1.2rem 1rem; display:flex; align-items:flex-start; gap:0.8rem;
+  transition:all var(--trans);
+}
+.feat-chip:hover { border-color:var(--rose-lt); box-shadow:0 4px 16px var(--shadow); }
+.feat-chip .ficon { font-size:1.5rem; flex-shrink:0; }
+.feat-chip .ftxt { font-size:0.83rem; line-height:1.4; }
+.feat-chip .ftxt strong { display:block; font-weight:600; margin-bottom:0.15rem; }
+.feat-chip .ftxt span { color:var(--muted); }
+.feat-chip.locked { opacity:0.5; }
+.feat-chip .badge-free, .feat-chip .badge-pro {
+  display:inline-block; font-size:0.62rem; font-weight:700;
+  letter-spacing:0.5px; border-radius:20px;
+  padding:0.1rem 0.45rem; margin-top:0.3rem;
+}
+.badge-free { background:var(--blush); color:var(--rose); }
+.badge-pro  { background:#FFF3CD; color:#92660A; }
+
+/* ═══════════════════════════════════════
+   LANDING — PRICING
+═══════════════════════════════════════ */
+.pricing-section { max-width:880px; margin:0 auto; text-align:center; }
+.pricing-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:1.5rem; margin-top:3rem;
+}
+@media(max-width:600px) { .pricing-grid { grid-template-columns:1fr; } }
+.price-card {
+  background:#fff; border:1.5px solid var(--border);
+  border-radius:var(--r-lg); padding:2.5rem 2rem;
+  text-align:left; position:relative;
+  transition:transform var(--trans), box-shadow var(--trans);
+}
+.price-card:hover { transform:translateY(-4px); box-shadow:0 16px 48px var(--shadow); }
+.price-card.popular {
+  border-color:var(--rose);
+  box-shadow:0 8px 40px rgba(214,68,106,0.18);
+}
+.price-pop-badge {
+  position:absolute; top:-14px; left:50%; transform:translateX(-50%);
+  background:linear-gradient(135deg,var(--rose),var(--wine));
+  color:#fff; border-radius:50px; padding:0.25rem 1rem;
+  font-size:0.72rem; font-weight:600; letter-spacing:0.5px;
+  white-space:nowrap;
+}
+.price-name {
+  font-family:var(--ff-display); font-size:1.6rem; font-weight:600;
+  margin-bottom:0.3rem;
+}
+.price-tagline { font-size:0.85rem; color:var(--muted); margin-bottom:1.5rem; }
+.price-amount {
+  font-family:var(--ff-display); font-size:3rem; font-weight:300;
+  line-height:1; color:var(--charcoal);
+}
+.price-amount sup { font-size:1.2rem; vertical-align:super; }
+.price-amount .per { font-size:0.9rem; color:var(--muted); font-family:var(--ff-body); }
+.price-amount.free-amt {
+  font-size:2rem; color:var(--rose);
+  font-family:var(--ff-script);
+}
+.price-divider { height:1px; background:var(--border); margin:1.5rem 0; }
+.price-features { list-style:none; }
+.price-features li {
+  display:flex; align-items:center; gap:0.6rem;
+  font-size:0.9rem; padding:0.4rem 0;
+  color:var(--charcoal);
+}
+.price-features li .check { color:var(--rose); font-size:1rem; }
+.price-features li .cross { color:#ccc; font-size:1rem; }
+.price-features li.disabled { color:#ccc; }
+.price-btn {
+  width:100%; margin-top:2rem; padding:0.85rem;
+  border-radius:50px; font-size:0.95rem; font-weight:500;
+  border:none; transition:all var(--trans);
+}
+.price-btn.free-btn {
+  background:var(--blush); color:var(--rose); border:1.5px solid var(--rose-lt);
+}
+.price-btn.free-btn:hover { background:var(--rose); color:#fff; }
+.price-btn.pro-btn {
+  background:linear-gradient(135deg,var(--rose),var(--wine));
+  color:#fff; box-shadow:0 6px 24px rgba(214,68,106,0.3);
+}
+.price-btn.pro-btn:hover { transform:translateY(-2px); box-shadow:0 10px 32px rgba(214,68,106,0.4); }
+
+/* ═══════════════════════════════════════
+   LANDING — FOOTER
+═══════════════════════════════════════ */
+footer {
+  background:var(--charcoal); color:#fff;
+  padding:2rem max(1.5rem,5vw);
+  display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap:1rem;
+  position:relative; z-index:1;
+}
+.footer-logo {
+  font-family:var(--ff-display); font-size:1.4rem;
+  color:var(--rose-lt);
+}
+.footer-copy { font-size:0.78rem; opacity:0.4; }
+
+/* ═══════════════════════════════════════
+   BUILDER PAGE
+═══════════════════════════════════════ */
+#page-builder {
+  min-height:100vh;
+  background:var(--cream);
+  padding-top:0;
+}
+
+/* builder top bar */
+.builder-topbar {
+  position:sticky; top:0; z-index:100;
+  background:rgba(253,247,242,0.94); backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 max(1.5rem,4vw); height:60px;
+}
+.builder-logo {
+  font-family:var(--ff-display); font-size:1.4rem;
+  font-weight:600; color:var(--rose);
+}
+.builder-logo span { color:var(--charcoal); font-weight:300; }
+
+/* step indicator */
+.step-bar {
+  display:flex; align-items:center; gap:0; flex:1;
+  max-width:480px; margin:0 auto; padding:0 1rem;
+}
+.step-item {
+  display:flex; align-items:center; flex:1; position:relative;
+}
+.step-dot {
+  width:28px; height:28px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:0.72rem; font-weight:700; flex-shrink:0;
+  background:var(--border); color:var(--muted);
+  transition:all 0.3s;
+  z-index:1; position:relative;
+}
+.step-dot.active { background:var(--rose); color:#fff; box-shadow:0 2px 12px var(--shadow); }
+.step-dot.done   { background:var(--wine); color:#fff; }
+.step-connector {
+  flex:1; height:2px; background:var(--border); transition:background 0.3s;
+}
+.step-connector.done { background:var(--wine); }
+.step-label {
+  position:absolute; top:32px; left:50%; transform:translateX(-50%);
+  white-space:nowrap; font-size:0.62rem; font-weight:500;
+  color:var(--muted); letter-spacing:0.3px;
+}
+.step-item.active .step-label { color:var(--rose); }
+
+/* builder body */
+.builder-body {
+  max-width:760px; margin:0 auto;
+  padding:2rem 1.5rem 5rem;
+}
+.builder-step {
+  display:none;
+}
+.builder-step.active {
+  display:block;
+  animation:pageIn 0.35s var(--trans) both;
+}
+
+/* builder step heading */
+.step-heading {
+  font-family:var(--ff-display);
+  font-size:clamp(1.8rem,4vw,2.8rem);
+  font-weight:400; line-height:1.15;
+  margin-bottom:0.4rem;
+}
+.step-heading em { font-style:italic; color:var(--rose); }
+.step-desc { font-size:0.9rem; color:var(--muted); margin-bottom:2rem; }
+
+/* plan cards */
+.plan-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:1.2rem;
+  margin-top:1.5rem;
+}
+@media(max-width:500px) { .plan-grid { grid-template-columns:1fr; } }
+.plan-card {
+  background:#fff; border:2px solid var(--border);
+  border-radius:var(--r-md); padding:1.8rem 1.5rem;
+  cursor:pointer; position:relative;
+  transition:all var(--trans);
+}
+.plan-card:hover { border-color:var(--rose-lt); }
+.plan-card.selected {
+  border-color:var(--rose);
+  box-shadow:0 0 0 4px rgba(214,68,106,0.1), 0 8px 32px var(--shadow);
+}
+.plan-check {
+  position:absolute; top:1rem; right:1rem;
+  width:22px; height:22px; border-radius:50%;
+  background:var(--border); border:none;
+  display:flex; align-items:center; justify-content:center;
+  font-size:0.7rem; color:transparent; transition:all var(--trans);
+}
+.plan-card.selected .plan-check {
+  background:var(--rose); color:#fff;
+}
+.plan-card.selected .plan-check::after { content:'✓'; }
+.plan-icon { font-size:2.2rem; margin-bottom:1rem; }
+.plan-name {
+  font-family:var(--ff-display); font-size:1.4rem; font-weight:600;
+  margin-bottom:0.2rem;
+}
+.plan-price {
+  font-size:0.85rem; color:var(--muted); margin-bottom:1rem;
+}
+.plan-price strong { color:var(--rose); font-size:1rem; }
+.plan-feats { list-style:none; }
+.plan-feats li {
+  font-size:0.82rem; display:flex; align-items:center; gap:0.5rem;
+  padding:0.25rem 0; color:var(--charcoal);
+}
+.plan-feats li .c { color:var(--rose); }
+.plan-feats li .x { color:#ccc; }
+.plan-feats li.dim { color:#ccc; }
+.plan-popular {
+  position:absolute; top:-11px; left:1.2rem;
+  background:linear-gradient(135deg,var(--rose),var(--wine));
+  color:#fff; font-size:0.65rem; font-weight:700;
+  letter-spacing:0.5px; padding:0.2rem 0.7rem; border-radius:20px;
+}
+
+/* theme cards */
+.theme-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:1.2rem; margin-top:1.5rem;
+}
+.theme-card {
+  border:2px solid var(--border); border-radius:var(--r-md);
+  overflow:hidden; cursor:pointer;
+  transition:all var(--trans);
+  position:relative;
+}
+.theme-card:hover { border-color:var(--rose-lt); transform:translateY(-2px); }
+.theme-card.selected {
+  border-color:var(--rose);
+  box-shadow:0 0 0 4px rgba(214,68,106,0.1);
+}
+.theme-preview {
+  height:130px; display:flex; align-items:center; justify-content:center;
+  font-size:2rem;
+}
+.theme-preview.bloom {
+  background:linear-gradient(135deg,#FDE8EE,#FDF0F8);
+}
+.theme-preview.minimal {
+  background:linear-gradient(135deg,#F8F4F0,#F0EBE8);
+}
+.theme-preview.dark {
+  background:linear-gradient(135deg,#1C0C14,#2E0A20);
+}
+.theme-preview.dark span { color:#F28EA8; }
+.theme-info { padding:0.9rem 1rem; background:#fff; }
+.theme-name {
+  font-weight:600; font-size:0.9rem; margin-bottom:0.15rem;
+}
+.theme-tagline { font-size:0.76rem; color:var(--muted); }
+.theme-pro-badge {
+  position:absolute; top:0.5rem; right:0.5rem;
+  background:#FFF3CD; color:#92660A;
+  font-size:0.62rem; font-weight:700; letter-spacing:0.3px;
+  padding:0.15rem 0.5rem; border-radius:20px;
+}
+.theme-locked {
+  position:absolute; inset:0;
+  background:rgba(253,247,242,0.7);
+  display:flex; align-items:center; justify-content:center;
+  backdrop-filter:blur(2px);
+  font-size:1.8rem;
+}
+
+/* personalize form */
+.form-row {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.2rem;
+}
+@media(max-width:480px){ .form-row { grid-template-columns:1fr; } }
+.form-group { display:flex; flex-direction:column; gap:0.4rem; }
+.form-group.full { grid-column:1/-1; }
+.form-label {
+  font-size:0.78rem; font-weight:600; letter-spacing:0.3px;
+  color:var(--wine); text-transform:uppercase;
+}
+.form-input {
+  border:1.5px solid var(--border); border-radius:var(--r-sm);
+  padding:0.7rem 1rem; font-size:0.95rem;
+  background:#fff; color:var(--charcoal);
+  transition:border var(--trans);
+}
+.form-input:focus { border-color:var(--rose); }
+.form-textarea {
+  border:1.5px solid var(--border); border-radius:var(--r-sm);
+  padding:0.8rem 1rem; font-size:0.93rem; resize:vertical; min-height:110px;
+  background:#fff; color:var(--charcoal);
+  transition:border var(--trans); line-height:1.6;
+}
+.form-textarea:focus { border-color:var(--rose); }
+.form-hint { font-size:0.75rem; color:var(--muted); margin-top:0.2rem; }
+.char-count { font-size:0.72rem; color:var(--muted); text-align:right; }
+
+/* feature toggles (premium) */
+.features-section-builder {
+  margin-top:1.5rem;
+}
+.feat-toggle-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:0.8rem; margin-top:1rem;
+}
+.feat-toggle {
+  background:#fff; border:1.5px solid var(--border); border-radius:var(--r-sm);
+  padding:0.9rem 1rem; display:flex; align-items:center; gap:0.7rem;
+  cursor:pointer; transition:all var(--trans);
+  position:relative;
+}
+.feat-toggle:hover { border-color:var(--rose-lt); }
+.feat-toggle.on { border-color:var(--rose); background:var(--blush); }
+.feat-toggle.locked-feat { opacity:0.45; cursor:not-allowed; }
+.feat-icon { font-size:1.3rem; flex-shrink:0; }
+.feat-name { font-size:0.83rem; font-weight:600; flex:1; }
+.feat-toggle-switch {
+  width:34px; height:18px; border-radius:9px;
+  background:var(--border); position:relative; flex-shrink:0;
+  transition:background var(--trans);
+}
+.feat-toggle.on .feat-toggle-switch { background:var(--rose); }
+.feat-toggle-switch::after {
+  content:''; position:absolute;
+  width:12px; height:12px; border-radius:50%; background:#fff;
+  top:3px; left:3px; transition:transform var(--trans);
+  box-shadow:0 1px 4px rgba(0,0,0,0.2);
+}
+.feat-toggle.on .feat-toggle-switch::after { transform:translateX(16px); }
+
+/* locked overlay for free plan */
+.free-locked-notice {
+  background:linear-gradient(135deg,var(--blush),#FFF8F0);
+  border:1px solid var(--border); border-radius:var(--r-md);
+  padding:1.5rem; text-align:center; margin-top:1.5rem;
+}
+.free-locked-notice .lock-emoji { font-size:2rem; margin-bottom:0.5rem; }
+.free-locked-notice h3 {
+  font-family:var(--ff-display); font-size:1.3rem; margin-bottom:0.4rem;
+}
+.free-locked-notice p { font-size:0.85rem; color:var(--muted); margin-bottom:1rem; }
+
+/* navigation buttons */
+.step-nav {
+  display:flex; gap:1rem; margin-top:2.5rem; justify-content:space-between;
+  align-items:center;
+}
+.btn-prev {
+  background:none; border:1.5px solid var(--border);
+  color:var(--muted); padding:0.7rem 1.5rem; border-radius:50px;
+  font-size:0.9rem; transition:all var(--trans);
+}
+.btn-prev:hover { border-color:var(--rose-lt); color:var(--rose); }
+.btn-next {
+  background:linear-gradient(135deg,var(--rose),var(--wine));
+  color:#fff; border:none; padding:0.8rem 2rem; border-radius:50px;
+  font-size:0.95rem; font-weight:500;
+  box-shadow:0 4px 16px var(--shadow);
+  transition:all var(--trans);
+}
+.btn-next:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(214,68,106,0.35); }
+.btn-next:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
+
+/* ═══════════════════════════════════════
+   BUILDER — STEP 4 (GENERATE)
+═══════════════════════════════════════ */
+.generate-card {
+  background:#fff; border:1px solid var(--border);
+  border-radius:var(--r-lg); padding:2.5rem;
+  text-align:center;
+}
+.gen-preview-thumb {
+  width:100%; max-width:360px; margin:0 auto 2rem;
+  border-radius:var(--r-md); overflow:hidden;
+  border:1px solid var(--border);
+  box-shadow:0 8px 32px var(--shadow);
+}
+.thumb-bar {
+  background:#F5F0ED; padding:0.5rem 0.8rem;
+  display:flex; align-items:center; gap:0.4rem;
+}
+.thumb-dot { width:8px; height:8px; border-radius:50%; }
+.thumb-content {
+  padding:2rem 1.5rem;
+  background:linear-gradient(135deg,#FDE8EE,#FDF7F2);
+  min-height:120px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+}
+.thumb-names {
+  font-family:var(--ff-script); font-size:1.8rem; color:var(--rose);
+  margin-bottom:0.5rem;
+}
+.thumb-sub { font-size:0.8rem; color:var(--muted); font-style:italic; }
+
+.link-box {
+  display:flex; gap:0.6rem; margin:1.5rem 0; max-width:420px; margin:1.2rem auto;
+}
+.link-input {
+  flex:1; border:1.5px solid var(--border); border-radius:var(--r-sm);
+  padding:0.6rem 1rem; font-size:0.85rem; background:var(--cream);
+  color:var(--charcoal); cursor:default;
+}
+.link-copy {
+  background:var(--rose); color:#fff; border:none;
+  padding:0.6rem 1.2rem; border-radius:var(--r-sm);
+  font-size:0.85rem; font-weight:500; transition:all var(--trans);
+  white-space:nowrap;
+}
+.link-copy:hover { background:var(--wine); }
+.share-buttons {
+  display:flex; gap:0.8rem; justify-content:center; flex-wrap:wrap; margin-top:1.2rem;
+}
+.share-btn {
+  display:flex; align-items:center; gap:0.5rem;
+  border:1.5px solid var(--border); border-radius:50px;
+  padding:0.5rem 1.1rem; font-size:0.83rem; background:#fff;
+  transition:all var(--trans);
+}
+.share-btn:hover { border-color:var(--rose); background:var(--blush); }
+.gen-preview-btn {
+  background:linear-gradient(135deg,var(--rose),var(--wine));
+  color:#fff; border:none; padding:0.85rem 2.5rem; border-radius:50px;
+  font-size:1rem; font-weight:500; margin-top:1rem;
+  box-shadow:0 6px 20px var(--shadow); transition:all var(--trans);
+}
+.gen-preview-btn:hover { transform:translateY(-2px); }
+
+/* ═══════════════════════════════════════
+   RECIPIENT PAGE
+═══════════════════════════════════════ */
+#page-recipient {
+  background:var(--cream);
+}
+
+/* recipient nav */
+.rec-nav {
+  position:fixed; top:0; width:100%; z-index:200;
+  background:rgba(253,247,242,0.92); backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 max(1.5rem,4vw); height:60px;
+}
+.rec-nav-logo {
+  font-family:var(--ff-script); font-size:1.6rem; color:var(--rose);
+}
+.rec-nav-links {
+  display:flex; gap:0.3rem; flex-wrap:wrap;
+}
+.rec-nav-links button {
+  background:none; border:none; font-size:0.74rem;
+  color:var(--wine); padding:0.3rem 0.6rem; border-radius:20px;
+  transition:all var(--trans);
+}
+.rec-nav-links button:hover, .rec-nav-links button.ractive {
+  background:var(--rose); color:#fff;
+}
+.rec-theme-btn {
+  background:none; border:1px solid var(--border);
+  border-radius:50%; width:32px; height:32px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:0.9rem; transition:all var(--trans);
+}
+.rec-theme-btn:hover { border-color:var(--rose); }
+
+/* recipient sections */
+.rec-section {
+  min-height:100vh;
+  padding:5rem 1.5rem 3rem;
+  position:relative; z-index:1;
+  scroll-margin-top:65px;
+}
+
+/* recipient hero */
+.rec-hero {
+  display:flex; flex-direction:column; align-items:center;
+  justify-content:center; text-align:center;
+  background:radial-gradient(ellipse 80% 60% at 50% 30%, #FDE8EE 0%, var(--cream) 70%);
+}
+.rec-hero-names {
+  font-family:var(--ff-script); font-size:clamp(2.5rem,8vw,5rem);
+  color:var(--rose); line-height:1.1;
+}
+.rec-hero-sub {
+  font-family:var(--ff-serif); font-style:italic;
+  color:var(--wine); margin:0.8rem 0 2rem; font-size:1.1rem;
+}
+.rec-big-emoji { font-size:4rem; margin-bottom:1.5rem; }
+
+/* ask out section */
+.rec-askout { text-align:center; }
+.rec-card {
+  background:#fff; border-radius:var(--r-md);
+  box-shadow:0 8px 40px var(--shadow);
+  padding:2.5rem 2rem; max-width:680px; margin:1.5rem auto;
+}
+.ask-title-rec {
+  font-family:var(--ff-script); font-size:2.5rem; color:var(--rose);
+  margin-bottom:0.8rem;
+}
+.ask-message {
+  font-family:var(--ff-serif); font-style:italic;
+  font-size:1.1rem; color:var(--wine); line-height:1.75;
+  margin-bottom:1.5rem; white-space:pre-wrap;
+}
+.ask-question {
+  font-family:var(--ff-script); font-size:2rem; color:var(--rose);
+  margin-bottom:1.5rem;
+}
+.ask-btn-wrap {
+  position:relative; height:70px;
+  display:flex; align-items:center; justify-content:center;
+}
+.yes-btn-rec {
+  background:linear-gradient(135deg,#27AE60,#1A7A40);
+  color:#fff; border:none; padding:0.9rem 2.5rem;
+  border-radius:50px; font-size:1.05rem; font-weight:600;
+  box-shadow:0 6px 20px rgba(39,174,96,0.3);
+  transition:transform var(--trans);
+}
+.yes-btn-rec:hover { transform:scale(1.08); }
+.no-btn-rec {
+  background:linear-gradient(135deg,#E74C3C,#C0392B);
+  color:#fff; border:none; padding:0.9rem 2.5rem;
+  border-radius:50px; font-size:1.05rem; font-weight:600;
+  position:absolute; transition:all 0.15s;
+  box-shadow:0 6px 20px rgba(231,76,60,0.3);
+}
+.ask-result-msg {
+  display:none; font-family:var(--ff-script); font-size:2rem;
+  color:var(--rose); margin-top:1.5rem;
+}
+
+/* love letter */
+.letter-wrap {
+  background:#FFFEF7; border:1px solid #E8D5B7;
+  border-radius:4px; padding:2.5rem;
+  font-family:var(--ff-serif); font-size:1rem; line-height:1.9;
+  color:#3A2010; max-width:600px; margin:0 auto;
+  box-shadow:4px 4px 0 #E8D5B7, 0 8px 30px rgba(0,0,0,0.06);
+  position:relative;
+}
+.letter-wrap::before {
+  content:''; position:absolute; top:0; left:3rem;
+  width:1px; height:100%;
+  background:linear-gradient(to bottom, transparent, #F0C8D0 20%, #F0C8D0 80%, transparent);
+  opacity:0.4;
+}
+.letter-date-rec { text-align:right; color:var(--gold); font-style:italic; margin-bottom:1.2rem; font-size:0.88rem; }
+.letter-body-rec { white-space:pre-line; }
+.letter-sig { margin-top:1.5rem; text-align:right; font-family:var(--ff-script); font-size:1.3rem; color:var(--rose); }
+.letter-controls-rec {
+  display:flex; gap:1rem; justify-content:center; margin-top:1.5rem; flex-wrap:wrap;
+}
+
+/* countdown */
+.cd-wrap-rec { text-align:center; }
+.cd-input-rec { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-bottom:1.5rem; }
+.cd-input-rec input {
+  border:1.5px solid var(--border); border-radius:var(--r-sm);
+  padding:0.6rem 1rem; font-size:1rem; background:#fff; color:var(--charcoal);
+}
+.cd-grid-rec {
+  display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; margin:2rem 0;
+}
+.cd-box-rec {
+  background:linear-gradient(135deg,var(--rose),var(--wine));
+  color:#fff; border-radius:16px; padding:1.5rem;
+  min-width:90px; text-align:center;
+  box-shadow:0 6px 24px rgba(214,68,106,0.3);
+}
+.cd-num-rec { font-family:var(--ff-display); font-size:2.8rem; font-weight:700; line-height:1; }
+.cd-label-rec { font-size:0.72rem; letter-spacing:2px; opacity:0.85; margin-top:0.3rem; }
+.cd-msg-rec { font-family:var(--ff-serif); font-style:italic; color:var(--wine); }
+
+/* memories wall */
+.mem-add-rec { display:flex; gap:0.7rem; flex-wrap:wrap; margin-bottom:1.5rem; }
+.mem-add-rec input {
+  flex:1; min-width:180px; border:1.5px solid var(--border);
+  border-radius:var(--r-sm); padding:0.6rem 1rem; font-size:0.93rem;
+  background:#fff; color:var(--charcoal);
+}
+.mem-add-rec input:focus { border-color:var(--rose); }
+.mem-grid-rec {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:1rem;
+}
+.mem-card-rec {
+  background:#fff; border-radius:12px; overflow:hidden;
+  box-shadow:0 4px 16px rgba(0,0,0,0.08);
+  transition:transform var(--trans);
+}
+.mem-card-rec:hover { transform:translateY(-4px); }
+.mem-card-rec img { width:100%; height:130px; object-fit:cover; }
+.mem-emoji-rec { font-size:2.5rem; text-align:center; padding:1.2rem 0 0.5rem; }
+.mem-caption-rec {
+  padding:0.6rem; font-family:var(--ff-script);
+  font-size:1rem; color:var(--wine); text-align:center;
+}
+
+/* reasons */
+.reasons-add-rec { display:flex; gap:0.7rem; margin-bottom:1rem; }
+.reasons-add-rec input {
+  flex:1; border:1.5px solid var(--border); border-radius:var(--r-sm);
+  padding:0.6rem 1rem; font-size:0.95rem; background:#fff; color:var(--charcoal);
+}
+.reasons-add-rec input:focus { border-color:var(--rose); }
+.reasons-list-rec { list-style:none; }
+.reasons-list-rec li {
+  background:var(--blush); border-radius:12px;
+  padding:0.7rem 1rem; margin-bottom:0.6rem;
+  display:flex; align-items:center; gap:0.7rem;
+  animation:slideIn 0.3s ease;
+}
+@keyframes slideIn { from{opacity:0;transform:translateX(-16px)} to{opacity:1;transform:none} }
+.del-btn-rec { background:none; border:none; cursor:pointer; color:#E74C3C; font-size:1rem; }
+.reasons-count-rec { text-align:center; font-family:var(--ff-script); font-size:1.3rem; color:var(--rose); margin-top:1rem; }
+
+/* quiz */
+.quiz-q-rec { font-family:var(--ff-serif); font-size:1.15rem; color:var(--wine); margin-bottom:1.2rem; font-style:italic; }
+.quiz-opts-rec { display:flex; flex-direction:column; gap:0.7rem; margin-bottom:1.5rem; }
+.quiz-opt-rec {
+  background:#fff; border:1.5px solid var(--border); border-radius:12px;
+  padding:0.8rem 1.2rem; cursor:pointer; transition:all var(--trans);
+  font-size:0.93rem; text-align:left;
+}
+.quiz-opt-rec:hover { border-color:var(--rose); background:var(--blush); }
+.quiz-opt-rec.correct { background:#D5F5E3; border-color:#27AE60; }
+.quiz-opt-rec.wrong   { background:#FDE8E8; border-color:#E74C3C; }
+.quiz-score-rec { font-family:var(--ff-script); font-size:2rem; color:var(--rose); text-align:center; margin-top:1rem; }
+.progress-bar-wrap-rec { background:#F0E0E4; border-radius:50px; height:8px; margin-bottom:1.5rem; overflow:hidden; }
+.progress-bar-rec { height:100%; background:linear-gradient(to right,var(--rose),var(--wine)); border-radius:50px; transition:width 0.4s; }
+
+/* playlist */
+.vibes-grid-rec { display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:1rem; margin:1rem 0; }
+.vibe-card-rec {
+  border-radius:16px; padding:1.2rem; text-align:center;
+  cursor:pointer; transition:all var(--trans); border:2px solid transparent;
+}
+.vibe-card-rec:hover { transform:scale(1.05); }
+.vibe-card-rec.vselected { border-color:var(--rose); box-shadow:0 0 0 4px rgba(214,68,106,0.15); }
+.vibe-icon-rec { font-size:2rem; margin-bottom:0.5rem; }
+.vibe-name-rec { font-weight:700; font-size:0.82rem; }
+.song-list-rec { list-style:none; margin-top:1.2rem; }
+.song-list-rec li {
+  display:flex; align-items:center; gap:0.8rem;
+  padding:0.7rem; border-radius:10px; margin-bottom:0.4rem;
+  background:var(--blush); transition:background var(--trans);
+}
+.song-list-rec li:hover { background:#FFD6DF; }
+.song-num-rec { font-weight:700; color:var(--rose); width:22px; text-align:center; }
+
+/* date planner */
+.planner-form-rec label { display:block; font-weight:600; font-size:0.82rem; color:var(--wine); margin-bottom:0.3rem; margin-top:1rem; text-transform:uppercase; letter-spacing:0.3px; }
+.planner-form-rec input, .planner-form-rec select, .planner-form-rec textarea {
+  width:100%; border:1.5px solid var(--border); border-radius:var(--r-sm);
+  padding:0.65rem 1rem; font-size:0.95rem; outline:none;
+  background:#fff; color:var(--charcoal); transition:border var(--trans);
+}
+.planner-form-rec input:focus, .planner-form-rec select:focus, .planner-form-rec textarea:focus { border-color:var(--rose); }
+.date-card-preview-rec {
+  background:linear-gradient(135deg,#FFE0EB,var(--blush));
+  border-radius:16px; padding:1.5rem; margin-top:1.5rem;
+  text-align:center; display:none;
+}
+
+/* dark mode */
+body.dark-mode {
+  --cream:#0E060C; --charcoal:#F5E6EE; --white:#1E0E18;
+  --border:#3A1828; --muted:#9A7080; --blush:#2A1020;
+  background:#0E060C;
+}
+body.dark-mode .rec-card, body.dark-mode .letter-wrap { background:#1E0E18; }
+body.dark-mode .rec-nav { background:rgba(14,6,12,0.94); }
+body.dark-mode .planner-form-rec input,
+body.dark-mode .planner-form-rec select,
+body.dark-mode .planner-form-rec textarea,
+body.dark-mode .cd-input-rec input,
+body.dark-mode .mem-add-rec input,
+body.dark-mode .reasons-add-rec input { background:#2A1020; border-color:#3A1828; color:var(--charcoal); }
+body.dark-mode .quiz-opt-rec { background:#2A1020; border-color:#3A1828; color:var(--charcoal); }
+
+/* shared */
+.rec-section-title {
+  font-family:var(--ff-script); font-size:2.5rem; color:var(--rose);
+  text-align:center; margin-bottom:0.5rem;
+}
+.rec-section-sub {
+  font-family:var(--ff-serif); font-style:italic;
+  text-align:center; color:var(--wine); margin-bottom:1.5rem; font-size:0.92rem;
+}
+.btn-rec-primary {
+  background:linear-gradient(135deg,var(--rose),var(--wine));
+  color:#fff; border:none; padding:0.75rem 2rem;
+  border-radius:50px; font-size:0.95rem; font-weight:500;
+  box-shadow:0 6px 20px var(--shadow); cursor:pointer;
+  transition:all var(--trans);
+}
+.btn-rec-primary:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(214,68,106,0.4); }
+.btn-rec-secondary {
+  background:#fff; border:1.5px solid var(--rose); color:var(--rose);
+  border-radius:50px; padding:0.6rem 1.5rem; cursor:pointer;
+  font-size:0.88rem; transition:all var(--trans);
+}
+.btn-rec-secondary:hover { background:var(--rose); color:#fff; }
+
+/* confetti */
+#confetti-c { position:fixed; inset:0; pointer-events:none; z-index:9999; }
+.conf-p {
+  position:absolute; border-radius:2px;
+  animation:confFall linear forwards; top:-20px;
+}
+@keyframes confFall { to { transform:translateY(110vh) rotate(720deg); opacity:0; } }
+
+/* notification toast */
+.toast {
+  position:fixed; bottom:2rem; left:50%; transform:translateX(-50%);
+  background:var(--charcoal); color:#fff;
+  padding:0.7rem 1.5rem; border-radius:50px;
+  font-size:0.88rem; z-index:9999; opacity:0;
+  transition:opacity 0.3s; pointer-events:none;
+}
+.toast.show { opacity:1; }
+
+/* scrollbar */
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+::-webkit-scrollbar-thumb:hover { background:var(--rose-lt); }
+
+/* responsive */
+@media(max-width:600px){
+  .landing-nav { padding:0 1rem; }
+  .hero-h1 { letter-spacing:-0.5px; }
+  .step-label { display:none; }
+  .builder-topbar { padding:0 1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Floating hearts -->
+<div id="hearts-bg"></div>
+<!-- Confetti -->
+<div id="confetti-c"></div>
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- ════════════════════════════════════════
+     PAGE: LANDING
+════════════════════════════════════════ -->
+<div id="page-landing" class="page page-enter">
+
+  <!-- NAV -->
+  <nav class="landing-nav">
+    <div class="nav-logo">Ask<span>Her</span></div>
+    <button class="nav-cta" onclick="goToBuilder()">Create Yours — Free</button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <span class="hero-deco" style="top:15%;left:8%;animation-duration:7s">🌸</span>
+    <span class="hero-deco" style="top:25%;right:10%;animation-duration:9s;animation-delay:-3s">💕</span>
+    <span class="hero-deco" style="top:70%;left:5%;animation-duration:8s;animation-delay:-1s">✨</span>
+    <span class="hero-deco" style="top:65%;right:7%;animation-duration:6s;animation-delay:-4s">🌹</span>
+
+    <div class="hero-badge">Join 7,193+ romantics who already asked</div>
+    <h1 class="hero-h1">
+      The Most Romantic<br>
+      <em>Way to Ask.</em>
+    </h1>
+    <p class="hero-sub">
+      Don't just send a text. Create a personalized, interactive website
+      for your partner — in seconds.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-hero" onclick="goToBuilder()">Make Yours Now 💌</button>
+      <button class="btn-ghost" onclick="previewDemo()">See a Demo</button>
+    </div>
+    <p class="hero-proof">Free to start · <strong>No credit card needed</strong> · Ready in 2 minutes</p>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section how">
+    <div class="how-inner">
+      <div class="section-label">How it Works</div>
+      <h2 class="section-h2">Three steps to <em>magic</em></h2>
+      <p class="section-p" style="margin:0 auto">Set it up in minutes, and let your partner fall in love all over again.</p>
+      <div class="how-grid">
+        <div class="how-card">
+          <div class="how-num">01</div>
+          <div class="how-icon">🎨</div>
+          <div class="how-title">Pick a Theme & Plan</div>
+          <div class="how-desc">Choose from beautiful themes. Free plan includes the classic Ask Out. Premium unlocks everything.</div>
+        </div>
+        <div class="how-card">
+          <div class="how-num">02</div>
+          <div class="how-icon">💌</div>
+          <div class="how-title">Personalize It</div>
+          <div class="how-desc">Add both names, write your message, upload memories, and set the date for your countdown.</div>
+        </div>
+        <div class="how-card">
+          <div class="how-num">03</div>
+          <div class="how-icon">🔗</div>
+          <div class="how-title">Share the Link</div>
+          <div class="how-desc">Send the unique link to your partner via WhatsApp, Instagram DM, or however you like.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section">
+    <div class="features-section">
+      <div style="text-align:center">
+        <div class="section-label">Features</div>
+        <h2 class="section-h2">Everything <em>love</em> needs</h2>
+        <p class="section-p" style="margin:0 auto 0">Free plan includes the essentials. Premium unlocks the full experience.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feat-chip">
+          <span class="ficon">💝</span>
+          <div class="ftxt">
+            <strong>Ask Out</strong>
+            <span>Runaway "No" button guaranteed to make them laugh</span>
+            <div><span class="badge-free">FREE</span></div>
+          </div>
+        </div>
+        <div class="feat-chip">
+          <span class="ficon">💌</span>
+          <div class="ftxt">
+            <strong>Love Letter</strong>
+            <span>Handcrafted letters that sound genuinely personal</span>
+            <div><span class="badge-pro">PREMIUM</span></div>
+          </div>
+        </div>
+        <div class="feat-chip">
+          <span class="ficon">📅</span>
+          <div class="ftxt">
+            <strong>Date Planner</strong>
+            <span>Plan your date and generate a shareable card</span>
+            <div><span class="badge-pro">PREMIUM</span></div>
+          </div>
+        </div>
+        <div class="feat-chip">
+          <span class="ficon">⏰</span>
+          <div class="ftxt">
+            <strong>Countdown Timer</strong>
+            <span>Count down to your special moment together</span>
+            <div><span class="badge-pro">PREMIUM</span></div>
+          </div>
+        </div>
+        <div class="feat-chip">
+          <span class="ficon">📸</span>
+          <div class="ftxt">
+            <strong>Memory Wall</strong>
+            <span>A private gallery of your favourite moments</span>
+            <div><span class="badge-pro">PREMIUM</span></div>
+          </div>
+        </div>
+        <div class="feat-chip">
+          <span class="ficon">🌹</span>
+          <div class="ftxt">
+            <strong>Reasons I Love You</strong>
+            <span>An ever-growing list that she can add to too</span>
+            <div><span class="badge-pro">PREMIUM</span></div>
+          </div>
+        </div>
+        <div class="feat-chip">
+          <span class="ficon">💡</span>
+          <div class="ftxt">
+            <strong>Couple Quiz</strong>
+            <span>A fun love quiz to play together</span>
+            <div><span class="badge-pro">PREMIUM</span></div>
+          </div>
+        </div>
+        <div class="feat-chip">
+          <span class="ficon">🎵</span>
+          <div class="ftxt">
+            <strong>Vibe Playlist</strong>
+            <span>Curated song suggestions for every mood</span>
+            <div><span class="badge-pro">PREMIUM</span></div>
+          </div>
+        </div>
+        <div class="feat-chip">
+          <span class="ficon">🎨</span>
+          <div class="ftxt">
+            <strong>3 Themes</strong>
+            <span>Bloom, Minimal, and Dark Romance</span>
+            <div><span class="badge-pro">PREMIUM</span></div>
+          </div>
+        </div>
+        <div class="feat-chip">
+          <span class="ficon">🎉</span>
+          <div class="ftxt">
+            <strong>Confetti & Dark Mode</strong>
+            <span>Because she said yes and deserves fireworks</span>
+            <div><span class="badge-pro">PREMIUM</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="section" style="background:#fff; border-top:1px solid var(--border);">
+    <div class="pricing-section">
+      <div class="section-label">Pricing</div>
+      <h2 class="section-h2">Simple, honest <em>pricing</em></h2>
+      <p class="section-p" style="margin:0 auto">Start free. Upgrade whenever you're ready to go all out.</p>
+
+      <div class="pricing-grid">
+        <!-- FREE -->
+        <div class="price-card">
+          <div class="price-name">Free</div>
+          <div class="price-tagline">Perfect for a quick, sweet ask</div>
+          <div class="price-amount free-amt">Always free</div>
+          <div class="price-divider"></div>
+          <ul class="price-features">
+            <li><span class="check">♥</span> Ask Out page (runaway No button)</li>
+            <li><span class="check">♥</span> Enter custom names</li>
+            <li><span class="check">♥</span> Bloom theme</li>
+            <li><span class="check">♥</span> Shareable link</li>
+            <li class="disabled"><span class="cross">✕</span> Love Letter</li>
+            <li class="disabled"><span class="cross">✕</span> Date Planner</li>
+            <li class="disabled"><span class="cross">✕</span> Memory Wall</li>
+            <li class="disabled"><span class="cross">✕</span> +6 more features</li>
+          </ul>
+          <button class="price-btn free-btn" onclick="startWithPlan('free')">Get Started Free</button>
+        </div>
+        <!-- PREMIUM -->
+        <div class="price-card popular">
+          <div class="price-pop-badge">✦ Most Popular</div>
+          <div class="price-name">Premium</div>
+          <div class="price-tagline">The full romantic experience</div>
+          <div class="price-amount">
+            <sup>₹</sup>99 <span class="per">/ site</span>
+          </div>
+          <div class="price-divider"></div>
+          <ul class="price-features">
+            <li><span class="check">♥</span> Everything in Free</li>
+            <li><span class="check">♥</span> Love Letter generator</li>
+            <li><span class="check">♥</span> Date Planner + card</li>
+            <li><span class="check">♥</span> Countdown timer</li>
+            <li><span class="check">♥</span> Memory Wall (photos)</li>
+            <li><span class="check">♥</span> Reasons I Love You</li>
+            <li><span class="check">♥</span> Couple Quiz</li>
+            <li><span class="check">♥</span> Vibe Playlist</li>
+            <li><span class="check">♥</span> 3 Themes + Dark Mode</li>
+            <li><span class="check">♥</span> Confetti on Yes 🎉</li>
+          </ul>
+          <button class="price-btn pro-btn" onclick="startWithPlan('premium')">Unlock Everything 💕</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">AskHer</div>
+    <div class="footer-copy">Made with 💕 for hopeless romantics everywhere</div>
+  </footer>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE: BUILDER
+════════════════════════════════════════ -->
+<div id="page-builder" class="page hidden">
+
+  <!-- top bar with steps -->
+  <div class="builder-topbar">
+    <div class="builder-logo">Ask<span>Her</span> · Builder</div>
+    <div class="step-bar" id="step-bar">
+      <div class="step-item active" id="si-0">
+        <div class="step-dot active" id="sd-0">1</div>
+        <span class="step-label">Plan</span>
+      </div>
+      <div class="step-connector" id="sc-0"></div>
+      <div class="step-item" id="si-1">
+        <div class="step-dot" id="sd-1">2</div>
+        <span class="step-label">Theme</span>
+      </div>
+      <div class="step-connector" id="sc-1"></div>
+      <div class="step-item" id="si-2">
+        <div class="step-dot" id="sd-2">3</div>
+        <span class="step-label">Details</span>
+      </div>
+      <div class="step-connector" id="sc-2"></div>
+      <div class="step-item" id="si-3">
+        <div class="step-dot" id="sd-3">4</div>
+        <span class="step-label">Share</span>
+      </div>
+    </div>
+    <button class="btn-ghost" style="font-size:0.8rem;padding:0.4rem 0.9rem" onclick="goToLanding()">← Back</button>
+  </div>
+
+  <div class="builder-body">
+
+    <!-- STEP 1: PLAN -->
+    <div class="builder-step active" id="step-1">
+      <h2 class="step-heading">Choose your <em>plan</em></h2>
+      <p class="step-desc">Free is great for a quick ask. Premium unlocks the full experience.</p>
+
+      <div class="plan-grid">
+        <div class="plan-card" id="plan-free" onclick="selectPlan('free')">
+          <div class="plan-check" id="pcheck-free"></div>
+          <div class="plan-icon">🌸</div>
+          <div class="plan-name">Free</div>
+          <div class="plan-price">Always <strong>₹0</strong></div>
+          <ul class="plan-feats">
+            <li><span class="c">♥</span> Ask Out page</li>
+            <li><span class="c">♥</span> Custom names</li>
+            <li><span class="c">♥</span> Bloom theme</li>
+            <li><span class="c">♥</span> Shareable link</li>
+            <li class="dim"><span class="x">✕</span> 6 premium features</li>
+          </ul>
+        </div>
+        <div class="plan-card" id="plan-premium" onclick="selectPlan('premium')">
+          <div class="plan-popular">✦ Recommended</div>
+          <div class="plan-check" id="pcheck-premium"></div>
+          <div class="plan-icon">💕</div>
+          <div class="plan-name">Premium</div>
+          <div class="plan-price">Just <strong>₹99</strong> per site</div>
+          <ul class="plan-feats">
+            <li><span class="c">♥</span> Everything in Free</li>
+            <li><span class="c">♥</span> Love Letter</li>
+            <li><span class="c">♥</span> Date Planner + Countdown</li>
+            <li><span class="c">♥</span> Memory Wall + Reasons</li>
+            <li><span class="c">♥</span> Quiz + Playlist + Themes</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-nav">
+        <span></span>
+        <button class="btn-next" id="btn-next-1" onclick="goStep(2)" disabled>Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: THEME -->
+    <div class="builder-step" id="step-2">
+      <h2 class="step-heading">Pick a <em>theme</em></h2>
+      <p class="step-desc" id="theme-desc">Choose the look and feel for your page.</p>
+
+      <div class="theme-grid">
+        <div class="theme-card" id="th-bloom" onclick="selectTheme('bloom')">
+          <div class="theme-preview bloom">
+            <span>🌸💕🌸</span>
+          </div>
+          <div class="theme-info">
+            <div class="theme-name">Bloom</div>
+            <div class="theme-tagline">Warm rose & cream — timeless romance</div>
+          </div>
+        </div>
+        <div class="theme-card" id="th-minimal" onclick="selectTheme('minimal')">
+          <div class="theme-preview minimal">
+            <span style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:#7B1D3E;font-style:italic">love, simply.</span>
+          </div>
+          <div class="theme-info">
+            <div class="theme-name">Minimal</div>
+            <div class="theme-tagline">Clean typography — modern & elegant</div>
+          </div>
+          <div class="theme-pro-badge" id="minimal-badge">PRO</div>
+          <div class="theme-locked" id="minimal-lock">🔒</div>
+        </div>
+        <div class="theme-card" id="th-dark" onclick="selectTheme('dark')">
+          <div class="theme-preview dark">
+            <span style="font-family:'Dancing Script',cursive;font-size:1.6rem">🌙 us</span>
+          </div>
+          <div class="theme-info">
+            <div class="theme-name">Dark Romance</div>
+            <div class="theme-tagline">Deep & moody — for the bold ones</div>
+          </div>
+          <div class="theme-pro-badge" id="dark-badge">PRO</div>
+          <div class="theme-locked" id="dark-lock">🔒</div>
+        </div>
+      </div>
+
+      <div class="step-nav">
+        <button class="btn-prev" onclick="goStep(1)">← Back</button>
+        <button class="btn-next" id="btn-next-2" onclick="goStep(3)" disabled>Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: PERSONALIZE -->
+    <div class="builder-step" id="step-3">
+      <h2 class="step-heading">Make it <em>yours</em></h2>
+      <p class="step-desc">These details will appear on the page your partner sees.</p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Your Name 💙</label>
+          <input class="form-input" id="inp-your-name" placeholder="e.g. Arjun" maxlength="20" oninput="checkStep3()"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Partner's Name 💗</label>
+          <input class="form-input" id="inp-partner-name" placeholder="e.g. Priya" maxlength="20" oninput="checkStep3()"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full">
+          <label class="form-label">Your Message 💌</label>
+          <textarea class="form-textarea" id="inp-message" maxlength="400"
+            placeholder="Write something from the heart... e.g. Every day with you feels like a dream. Will you go on a date with me? 💕"
+            oninput="updateCharCount(this,400)"></textarea>
+          <div class="char-count" id="char-count">0 / 400</div>
+          <div class="form-hint">This appears as your personal note on the page. Keep it genuine!</div>
+        </div>
+      </div>
+
+      <!-- Features (Premium only) -->
+      <div id="features-section" class="features-section-builder" style="display:none">
+        <label class="form-label" style="font-size:0.85rem;margin-bottom:0.8rem">Choose Features to Include</label>
+        <div class="feat-toggle-grid" id="feat-toggle-grid">
+          <!-- filled by JS -->
+        </div>
+      </div>
+
+      <!-- Free locked notice -->
+      <div id="free-lock-notice" class="free-locked-notice">
+        <div class="lock-emoji">🔒</div>
+        <h3>Want the full experience?</h3>
+        <p>Upgrade to Premium to unlock Love Letter, Date Planner, Memory Wall, Countdown, Quiz, Playlist, and more.</p>
+        <button class="btn-next" style="margin:0 auto;display:block" onclick="switchToPremium()">Upgrade to Premium ✨</button>
+      </div>
+
+      <div class="step-nav">
+        <button class="btn-prev" onclick="goStep(2)">← Back</button>
+        <button class="btn-next" id="btn-next-3" onclick="goStep(4)" disabled>Generate Page →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: GENERATE -->
+    <div class="builder-step" id="step-4">
+      <h2 class="step-heading">Your page is <em>ready</em> 🎉</h2>
+      <p class="step-desc">Share this link with your partner. They'll see the magic you created.</p>
+
+      <div class="generate-card">
+        <div class="gen-preview-thumb">
+          <div class="thumb-bar">
+            <div class="thumb-dot" style="background:#FF5F57"></div>
+            <div class="thumb-dot" style="background:#FEBC2E"></div>
+            <div class="thumb-dot" style="background:#28C840"></div>
+            <span style="font-size:0.7rem;color:#aaa;margin-left:0.4rem;flex:1;text-align:center" id="thumb-url-bar">askher.love/♥...</span>
+          </div>
+          <div class="thumb-content" id="thumb-content">
+            <div class="thumb-names" id="thumb-names">Romeo & Juliet</div>
+            <div class="thumb-sub">✨ A little corner of the internet, just for us ✨</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:0.5rem;font-size:0.8rem;color:var(--muted);letter-spacing:0.3px;font-weight:500">YOUR SHAREABLE LINK</div>
+        <div class="link-box">
+          <input class="link-input" id="generated-link" readonly value="askher.love/💕/loading..."/>
+          <button class="link-copy" onclick="copyLink()">Copy</button>
+        </div>
+
+        <div class="share-buttons">
+          <button class="share-btn" onclick="shareWhatsApp()">
+            <span>💬</span> WhatsApp
+          </button>
+          <button class="share-btn" onclick="shareInstagram()">
+            <span>📸</span> Instagram DM
+          </button>
+          <button class="share-btn" onclick="shareSMS()">
+            <span>✉️</span> SMS
+          </button>
+        </div>
+
+        <div style="height:1px;background:var(--border);margin:1.5rem 0"></div>
+
+        <button class="gen-preview-btn" onclick="openPreview()">
+          Preview Your Page 👁️
+        </button>
+      </div>
+
+      <div class="step-nav" style="justify-content:center">
+        <button class="btn-prev" onclick="goStep(3)">← Edit Details</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE: RECIPIENT (what partner sees)
+════════════════════════════════════════ -->
+<div id="page-recipient" class="page hidden">
+
+  <!-- recipient nav (filled by JS based on plan) -->
+  <nav class="rec-nav">
+    <div class="rec-nav-logo">💕 Us</div>
+    <div class="rec-nav-links" id="rec-nav-links"></div>
+    <button class="rec-theme-btn" id="rec-theme-btn" onclick="toggleDarkMode()">🌙</button>
+  </nav>
+
+  <!-- HERO section (always shown) -->
+  <section class="rec-section rec-hero" id="rec-hero">
+    <div class="name-setup" style="background:#fff;border-radius:16px;padding:1.2rem;box-shadow:0 4px 20px var(--shadow);margin-bottom:2rem;display:flex;flex-wrap:wrap;gap:0.8rem;justify-content:center">
+      <!-- only shown in preview/demo mode -->
+      <span style="font-size:0.78rem;color:var(--muted);align-self:center">Customise:</span>
+      <input class="form-input" id="rec-boy-inp" placeholder="His name" style="width:130px;padding:0.4rem 0.7rem;font-size:0.85rem" oninput="updateRecNames()"/>
+      <input class="form-input" id="rec-girl-inp" placeholder="Her name" style="width:130px;padding:0.4rem 0.7rem;font-size:0.85rem" oninput="updateRecNames()"/>
+    </div>
+    <div class="rec-big-emoji">💑</div>
+    <div class="rec-hero-names" id="rec-names">Romeo &amp; Juliet</div>
+    <div class="rec-hero-sub">✨ A little corner of the internet, just for us ✨</div>
+    <button class="btn-rec-primary" onclick="scrollToSection('rec-askout')">Open Our Special Message 💌</button>
+  </section>
+
+  <!-- ASK OUT (always shown) -->
+  <section class="rec-section rec-askout" id="rec-askout">
+    <div class="rec-card" style="position:relative;overflow:visible">
+      <div class="ask-title-rec">Hey <span class="rec-gname">Beautiful</span> 🌸</div>
+      <div style="font-size:4.5rem;margin-bottom:1rem;display:block;text-align:center" id="rec-ask-emoji">🥺</div>
+      <div class="ask-message" id="rec-ask-msg">
+        I have been thinking about this for a while now...
+        You make every ordinary moment feel magical ✨
+
+        So I wanted to ask you something special...
+      </div>
+      <div class="ask-question">Will you go on a date with me? 💕</div>
+      <div class="ask-btn-wrap">
+        <div style="display:flex;gap:1rem;justify-content:center">
+          <button class="yes-btn-rec" id="rec-yes-btn" onclick="recSayYes()">Yes!! 🥰</button>
+        </div>
+        <button class="no-btn-rec" id="rec-no-btn" onmouseover="recRunAway(this)" onclick="recRunAway(this)">No 😤</button>
+      </div>
+      <div class="ask-result-msg" id="rec-ask-result">
+        🎉 Yayyyy!!! I knew it! 🎊<br>
+        <span style="font-size:1rem;font-family:'Playfair Display',serif;font-style:italic">
+          Best day ever! Let's plan something magical 💖
+        </span>
+      </div>
+      <div id="rec-no-count" style="color:#aaa;font-size:0.8rem;margin-top:0.7rem;text-align:center"></div>
+    </div>
+  </section>
+
+  <!-- LOVE LETTER (premium) -->
+  <section class="rec-section" id="rec-letter" style="display:none">
+    <div class="rec-section-title">💌 A Letter For You</div>
+    <div class="rec-section-sub">Written from the heart...</div>
+    <div class="letter-wrap">
+      <div class="letter-date-rec" id="rec-letter-date"></div>
+      <div class="letter-body-rec" id="rec-letter-body"></div>
+      <div class="letter-sig">
+        With all my love,<br>
+        <span class="rec-bname" style="font-size:1.6rem">Romeo</span> 💕
+      </div>
+    </div>
+    <div class="letter-controls-rec">
+      <button class="btn-rec-secondary" onclick="recNextLetter()">Another Letter 🔄</button>
+      <button class="btn-rec-primary" onclick="recCopyLetter()">Copy Letter 📋</button>
+    </div>
+  </section>
+
+  <!-- DATE PLANNER (premium) -->
+  <section class="rec-section" id="rec-planner" style="display:none">
+    <div class="rec-section-title">📅 Plan Our Date</div>
+    <div class="rec-section-sub">Let's make it perfect ✨</div>
+    <div class="rec-card">
+      <div class="planner-form-rec">
+        <label>📅 Date</label>
+        <input type="date" id="rec-p-date"/>
+        <label>⏰ Time</label>
+        <input type="time" id="rec-p-time" value="19:00"/>
+        <label>📍 Location</label>
+        <input type="text" id="rec-p-venue" placeholder="e.g. Rooftop restaurant, Beach..."/>
+        <label>🌟 Date Vibe</label>
+        <select id="rec-p-vibe">
+          <option>🌹 Romantic Dinner</option>
+          <option>🎬 Movie Night</option>
+          <option>🌅 Sunset Walk</option>
+          <option>☕ Coffee Date</option>
+          <option>🎡 Amusement Park</option>
+          <option>🏖️ Beach Day</option>
+          <option>🍕 Pizza &amp; Games</option>
+          <option>🌸 Picnic</option>
+        </select>
+        <label>💬 Message (optional)</label>
+        <textarea id="rec-p-note" rows="3" placeholder="Write something sweet..."></textarea>
+        <div style="margin-top:1.2rem;text-align:center">
+          <button class="btn-rec-primary" onclick="recGenerateDateCard()">Create Date Card 💕</button>
+        </div>
+      </div>
+      <div class="date-card-preview-rec" id="rec-date-preview">
+        <div style="font-size:3rem" id="rec-dp-emoji">🌹</div>
+        <div style="font-family:var(--ff-script);font-size:2rem;color:var(--rose)" id="rec-dp-vibe"></div>
+        <div style="margin:0.8rem 0;font-family:var(--ff-serif)">
+          <div id="rec-dp-date" style="font-size:1.05rem;color:var(--wine)"></div>
+          <div id="rec-dp-venue" style="color:#888;margin-top:0.3rem"></div>
+        </div>
+        <div id="rec-dp-note" style="font-style:italic;color:var(--rose)"></div>
+        <div style="font-family:var(--ff-script);font-size:1.4rem;color:var(--rose);margin-top:1rem">
+          <span class="rec-bname">Romeo</span> &amp; <span class="rec-gname">Juliet</span> 💕
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COUNTDOWN (premium) -->
+  <section class="rec-section" id="rec-countdown" style="display:none">
+    <div class="rec-section-title">⏰ Countdown To Us</div>
+    <div class="rec-section-sub">Every second counts...</div>
+    <div class="rec-card cd-wrap-rec">
+      <div class="cd-input-rec">
+        <input type="datetime-local" id="rec-cd-target" onchange="recStartCountdown()"/>
+        <button class="btn-rec-primary" onclick="recStartCountdown()">Set Date 💕</button>
+      </div>
+      <div class="cd-grid-rec">
+        <div class="cd-box-rec"><div class="cd-num-rec" id="rec-cd-d">--</div><div class="cd-label-rec">DAYS</div></div>
+        <div class="cd-box-rec"><div class="cd-num-rec" id="rec-cd-h">--</div><div class="cd-label-rec">HOURS</div></div>
+        <div class="cd-box-rec"><div class="cd-num-rec" id="rec-cd-m">--</div><div class="cd-label-rec">MINUTES</div></div>
+        <div class="cd-box-rec"><div class="cd-num-rec" id="rec-cd-s">--</div><div class="cd-label-rec">SECONDS</div></div>
+      </div>
+      <div class="cd-msg-rec" id="rec-cd-msg">Set a date above to start the countdown 💖</div>
+    </div>
+  </section>
+
+  <!-- MEMORY WALL (premium) -->
+  <section class="rec-section" id="rec-memories" style="display:none">
+    <div class="rec-section-title">📸 Our Memory Wall</div>
+    <div class="rec-section-sub">Our story in pictures...</div>
+    <div class="rec-card">
+      <div class="mem-add-rec">
+        <input id="rec-mem-url" placeholder="Image URL or emoji 🎆"/>
+        <input id="rec-mem-cap" placeholder="Caption 💭" style="flex:1.5"/>
+        <button class="btn-rec-primary" style="white-space:nowrap;font-size:0.82rem;padding:0.6rem 1rem" onclick="recAddMemory()">Add 💕</button>
+      </div>
+      <div class="mem-grid-rec" id="rec-mem-grid"></div>
+      <div id="rec-mem-empty" style="text-align:center;color:#aaa;padding:2rem;font-style:italic">
+        Add your first memory above! 📸
+      </div>
+    </div>
+  </section>
+
+  <!-- REASONS (premium) -->
+  <section class="rec-section" id="rec-reasons" style="display:none">
+    <div class="rec-section-title">🌹 Reasons I Love You</div>
+    <div class="rec-section-sub">Let me count the ways...</div>
+    <div class="rec-card">
+      <div class="reasons-add-rec">
+        <input id="rec-reason-inp" placeholder="One reason I love you..." onkeydown="if(event.key==='Enter')recAddReason()"/>
+        <button class="btn-rec-primary" style="font-size:0.82rem;padding:0.6rem 1rem;white-space:nowrap" onclick="recAddReason()">Add 💕</button>
+      </div>
+      <ul class="reasons-list-rec" id="rec-reasons-list"></ul>
+      <div class="reasons-count-rec" id="rec-reasons-count"></div>
+    </div>
+  </section>
+
+  <!-- QUIZ (premium) -->
+  <section class="rec-section" id="rec-quiz" style="display:none">
+    <div class="rec-section-title">💡 How Well Do You Know Each Other?</div>
+    <div class="rec-section-sub">A little love quiz 💕</div>
+    <div class="rec-card">
+      <div class="progress-bar-wrap-rec">
+        <div class="progress-bar-rec" id="rec-quiz-progress" style="width:0%"></div>
+      </div>
+      <div id="rec-quiz-area"></div>
+      <div id="rec-quiz-final" style="display:none;text-align:center">
+        <div style="font-size:4rem">🎊</div>
+        <div class="quiz-score-rec" id="rec-quiz-score"></div>
+        <div style="margin:1rem;font-style:italic;color:var(--wine)" id="rec-quiz-verdict"></div>
+        <button class="btn-rec-primary" onclick="recStartQuiz()">Play Again 🔄</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLAYLIST (premium) -->
+  <section class="rec-section" id="rec-playlist" style="display:none">
+    <div class="rec-section-title">🎵 Our Date Vibes</div>
+    <div class="rec-section-sub">Pick your mood, set the atmosphere...</div>
+    <div class="rec-card">
+      <div class="vibes-grid-rec" id="rec-vibe-grid"></div>
+      <div id="rec-song-result"></div>
+    </div>
+  </section>
+
+</div><!-- end page-recipient -->
+
+<script>
+/* ════════════════════════════════════
+   STATE
+════════════════════════════════════ */
+const state = {
+  plan: null,        // 'free' | 'premium'
+  theme: null,       // 'bloom' | 'minimal' | 'dark'
+  boyName: '',
+  girlName: '',
+  message: '',
+  features: {
+    askout:   true,
+    letter:   false,
+    planner:  false,
+    countdown:false,
+    memories: false,
+    reasons:  false,
+    quiz:     false,
+    playlist: false,
+  },
+  currentStep: 1,
+};
+
+const ALL_FEATURES = [
+  { key:'askout',    icon:'💝', name:'Ask Out',      locked:false },
+  { key:'letter',    icon:'💌', name:'Love Letter',   locked:true  },
+  { key:'planner',   icon:'📅', name:'Date Planner',  locked:true  },
+  { key:'countdown', icon:'⏰', name:'Countdown',     locked:true  },
+  { key:'memories',  icon:'📸', name:'Memory Wall',   locked:true  },
+  { key:'reasons',   icon:'🌹', name:'Reasons',       locked:true  },
+  { key:'quiz',      icon:'💡', name:'Quiz',          locked:true  },
+  { key:'playlist',  icon:'🎵', name:'Playlist',      locked:true  },
+];
+
+/* ════════════════════════════════════
+   FLOATING HEARTS
+════════════════════════════════════ */
+const HEART_EMOJIS = ['💕','💗','💓','💞','❤️','🌸','✨','💖'];
+function spawnHeart() {
+  const h = document.createElement('div');
+  h.className = 'fh';
+  h.textContent = HEART_EMOJIS[Math.floor(Math.random() * HEART_EMOJIS.length)];
+  h.style.left   = Math.random() * 100 + 'vw';
+  h.style.fontSize = (Math.random() * 1.2 + 0.7) + 'rem';
+  h.style.animationDuration  = (Math.random() * 8 + 7) + 's';
+  h.style.animationDelay     = (Math.random() * 3) + 's';
+  document.getElementById('hearts-bg').appendChild(h);
+  setTimeout(() => h.remove(), 18000);
+}
+setInterval(spawnHeart, 1400);
+
+/* ════════════════════════════════════
+   TOAST
+════════════════════════════════════ */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+/* ════════════════════════════════════
+   PAGE NAVIGATION
+════════════════════════════════════ */
+function showPage(id) {
+  ['page-landing','page-builder','page-recipient'].forEach(p => {
+    const el = document.getElementById(p);
+    if (el) { el.classList.add('hidden'); el.classList.remove('page-enter'); }
+  });
+  const target = document.getElementById(id);
+  if (target) {
+    target.classList.remove('hidden');
+    requestAnimationFrame(() => target.classList.add('page-enter'));
+    window.scrollTo(0, 0);
+  }
+}
+
+function goToLanding() { showPage('page-landing'); }
+function goToBuilder() { showPage('page-builder'); }
+
+/* ════════════════════════════════════
+   BUILDER — STEP LOGIC
+════════════════════════════════════ */
+function goStep(n) {
+  // validate
+  if (n === 2 && !state.plan) { showToast('Please choose a plan first'); return; }
+  if (n === 3 && !state.theme) { showToast('Please choose a theme first'); return; }
+  if (n === 4) {
+    const bname = document.getElementById('inp-your-name').value.trim();
+    const gname = document.getElementById('inp-partner-name').value.trim();
+    if (!bname || !gname) { showToast('Please enter both names'); return; }
+    state.boyName = bname;
+    state.girlName = gname;
+    state.message  = document.getElementById('inp-message').value.trim();
+    generateLink();
+    updateThumbPreview();
+  }
+
+  document.getElementById('step-' + state.currentStep).classList.remove('active');
+  state.currentStep = n;
+  document.getElementById('step-' + n).classList.add('active');
+  updateStepBar();
+  window.scrollTo(0, 0);
+}
+
+function updateStepBar() {
+  for (let i = 0; i < 4; i++) {
+    const dot = document.getElementById('sd-' + i);
+    const item = document.getElementById('si-' + i);
+    const conn = document.getElementById('sc-' + i);
+    const stepN = i + 1;
+    dot.classList.remove('active','done');
+    item.classList.remove('active');
+    if (conn) conn.classList.remove('done');
+    if (stepN < state.currentStep) { dot.classList.add('done'); if (conn) conn.classList.add('done'); }
+    else if (stepN === state.currentStep) { dot.classList.add('active'); item.classList.add('active'); }
+  }
+}
+
+/* ════════════════════════════════════
+   PLAN SELECT
+════════════════════════════════════ */
+function selectPlan(plan) {
+  state.plan = plan;
+  document.getElementById('plan-free').classList.toggle('selected', plan === 'free');
+  document.getElementById('plan-premium').classList.toggle('selected', plan === 'premium');
+  document.getElementById('btn-next-1').disabled = false;
+
+  // unlock themes for premium
+  if (plan === 'premium') {
+    document.getElementById('minimal-lock').style.display = 'none';
+    document.getElementById('dark-lock').style.display    = 'none';
+  } else {
+    document.getElementById('minimal-lock').style.display = '';
+    document.getElementById('dark-lock').style.display    = '';
+    // reset to bloom if non-bloom was selected
+    if (state.theme && state.theme !== 'bloom') {
+      state.theme = null;
+      document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('selected'));
+      document.getElementById('btn-next-2').disabled = true;
+    }
+  }
+
+  // enable/disable features section on step 3
+  renderFeaturesSection();
+}
+
+function startWithPlan(plan) {
+  goToBuilder();
+  setTimeout(() => { selectPlan(plan); }, 150);
+}
+
+function switchToPremium() {
+  goStep(1);
+  setTimeout(() => selectPlan('premium'), 200);
+}
+
+/* ════════════════════════════════════
+   THEME SELECT
+════════════════════════════════════ */
+function selectTheme(t) {
+  if ((t === 'minimal' || t === 'dark') && state.plan !== 'premium') {
+    showToast('🔒 Upgrade to Premium to unlock this theme');
+    return;
+  }
+  state.theme = t;
+  document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('th-' + t).classList.add('selected');
+  document.getElementById('btn-next-2').disabled = false;
+}
+
+/* ════════════════════════════════════
+   STEP 3 — FORM
+════════════════════════════════════ */
+function checkStep3() {
+  const bname = document.getElementById('inp-your-name').value.trim();
+  const gname = document.getElementById('inp-partner-name').value.trim();
+  document.getElementById('btn-next-3').disabled = !(bname && gname);
+}
+
+function updateCharCount(el, max) {
+  const c = document.getElementById('char-count');
+  if (c) c.textContent = el.value.length + ' / ' + max;
+}
+
+function renderFeaturesSection() {
+  const fs = document.getElementById('features-section');
+  const fln = document.getElementById('free-lock-notice');
+  if (state.plan === 'premium') {
+    fs.style.display   = 'block';
+    fln.style.display  = 'none';
+    // build toggles
+    const grid = document.getElementById('feat-toggle-grid');
+    grid.innerHTML = ALL_FEATURES.map(f => `
+      <div class="feat-toggle ${f.key === 'askout' ? 'on' : ''}"
+           id="ft-${f.key}"
+           onclick="toggleFeature('${f.key}',${f.key === 'askout'})">
+        <span class="feat-icon">${f.icon}</span>
+        <span class="feat-name">${f.name}</span>
+        <div class="feat-toggle-switch"></div>
+      </div>
+    `).join('');
+    // init state
+    ALL_FEATURES.forEach(f => { state.features[f.key] = f.key === 'askout'; });
+  } else {
+    fs.style.display  = 'none';
+    fln.style.display = 'block';
+    // reset features to free
+    ALL_FEATURES.forEach(f => { state.features[f.key] = f.key === 'askout'; });
+  }
+}
+
+function toggleFeature(key, isLocked) {
+  if (isLocked) return; // askout always on
+  state.features[key] = !state.features[key];
+  const el = document.getElementById('ft-' + key);
+  if (el) el.classList.toggle('on', state.features[key]);
+}
+
+/* ════════════════════════════════════
+   STEP 4 — GENERATE LINK
+════════════════════════════════════ */
+function generateLink() {
+  const b = encodeURIComponent(state.boyName);
+  const g = encodeURIComponent(state.girlName);
+  const link = `askher.love/💕/${b}-and-${g}`;
+  document.getElementById('generated-link').value = link;
+  document.getElementById('thumb-url-bar').textContent = link;
+}
+
+function updateThumbPreview() {
+  document.getElementById('thumb-names').textContent =
+    state.boyName + ' & ' + state.girlName;
+  // apply theme tint to thumb
+  const tc = document.getElementById('thumb-content');
+  if (state.theme === 'dark') {
+    tc.style.background = 'linear-gradient(135deg,#1C0C14,#2E0A20)';
+    document.getElementById('thumb-names').style.color = '#F28EA8';
+  } else if (state.theme === 'minimal') {
+    tc.style.background = 'linear-gradient(135deg,#F8F4F0,#F0EBE8)';
+  } else {
+    tc.style.background = 'linear-gradient(135deg,#FDE8EE,#FDF7F2)';
+  }
+}
+
+function copyLink() {
+  const val = document.getElementById('generated-link').value;
+  navigator.clipboard.writeText(val).then(() => showToast('Link copied! 💕'));
+}
+
+function shareWhatsApp() {
+  const link = document.getElementById('generated-link').value;
+  const msg = `${state.boyName} made something special for you 💌 → ${link}`;
+  window.open('https://wa.me/?text=' + encodeURIComponent(msg));
+}
+function shareInstagram() { showToast('Copy the link and paste it in your DM! 💬'); }
+function shareSMS() {
+  const link = document.getElementById('generated-link').value;
+  window.open('sms:?body=' + encodeURIComponent('I made something for you 💌 → ' + link));
+}
+
+/* ════════════════════════════════════
+   OPEN PREVIEW (recipient page)
+════════════════════════════════════ */
+function openPreview() {
+  // copy state into recipient page
+  recBoyName  = state.boyName  || 'Romeo';
+  recGirlName = state.girlName || 'Juliet';
+  recMessage  = state.message  || '';
+
+  document.getElementById('rec-boy-inp').value  = recBoyName;
+  document.getElementById('rec-girl-inp').value = recGirlName;
+
+  updateRecNames();
+  setupRecNavLinks();
+  setupRecSections();
+
+  // apply theme
+  applyThemeToRec(state.theme || 'bloom');
+
+  showPage('page-recipient');
+
+  // init sub-features
+  recRenderLetter();
+  recStartQuiz();
+  recRenderVibes();
+  recRenderReasons();
+  recRenderMemories();
+}
+
+function previewDemo() {
+  state.boyName  = 'Arjun';
+  state.girlName = 'Priya';
+  state.plan     = 'premium';
+  state.theme    = 'bloom';
+  state.message  = 'I have been thinking about this for a while now...\nYou make every ordinary moment feel magical ✨\n\nSo I wanted to ask you something special...';
+  ALL_FEATURES.forEach(f => { state.features[f.key] = true; });
+  openPreview();
+}
+
+/* ════════════════════════════════════
+   RECIPIENT PAGE SETUP
+════════════════════════════════════ */
+let recBoyName  = 'Romeo';
+let recGirlName = 'Juliet';
+let recMessage  = '';
+let recNoCount  = 0;
+let recCdInterval = null;
+let recMemories   = [];
+let recReasons    = [];
+let recLetterIdx  = 0;
+let recQuizQ = 0, recQuizScore = 0;
+
+const REC_SECTION_MAP = [
+  { key:'askout',    id:'rec-askout',    label:'💝 Ask Out',  always:true  },
+  { key:'letter',    id:'rec-letter',    label:'💌 Letter',   always:false },
+  { key:'planner',   id:'rec-planner',   label:'📅 Date',     always:false },
+  { key:'countdown', id:'rec-countdown', label:'⏰ Timer',     always:false },
+  { key:'memories',  id:'rec-memories',  label:'📸 Memories', always:false },
+  { key:'reasons',   id:'rec-reasons',   label:'🌹 Reasons',  always:false },
+  { key:'quiz',      id:'rec-quiz',      label:'💡 Quiz',     always:false },
+  { key:'playlist',  id:'rec-playlist',  label:'🎵 Vibes',    always:false },
+];
+
+function setupRecNavLinks() {
+  const nav = document.getElementById('rec-nav-links');
+  nav.innerHTML = REC_SECTION_MAP
+    .filter(s => s.always || state.features[s.key])
+    .map(s => `<button onclick="scrollToSection('${s.id}')">${s.label}</button>`)
+    .join('');
+}
+
+function setupRecSections() {
+  REC_SECTION_MAP.forEach(s => {
+    if (s.always) return;
+    const el = document.getElementById(s.id);
+    if (el) el.style.display = state.features[s.key] ? '' : 'none';
+  });
+}
+
+function applyThemeToRec(theme) {
+  document.body.classList.remove('dark-mode');
+  if (theme === 'dark') {
+    document.body.classList.add('dark-mode');
+    document.getElementById('rec-theme-btn').textContent = '☀️';
+  }
+}
+
+function updateRecNames() {
+  const b = document.getElementById('rec-boy-inp').value || recBoyName;
+  const g = document.getElementById('rec-girl-inp').value || recGirlName;
+  document.getElementById('rec-names').innerHTML = b + ' &amp; ' + g;
+  document.querySelectorAll('.rec-bname').forEach(el => el.textContent = b);
+  document.querySelectorAll('.rec-gname').forEach(el => el.textContent = g);
+  recBoyName = b; recGirlName = g;
+}
+
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function toggleDarkMode() {
+  document.body.classList.toggle('dark-mode');
+  const btn = document.getElementById('rec-theme-btn');
+  btn.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+}
+
+/* ════════════════════════════════════
+   RECIPIENT — ASK OUT
+════════════════════════════════════ */
+function recRunAway(btn) {
+  recNoCount++;
+  const vw = window.innerWidth - 130, vh = window.innerHeight - 70;
+  const x = Math.random() * vw, y = Math.random() * vh;
+  btn.style.left = x + 'px'; btn.style.top = y + 'px';
+  btn.style.position = 'fixed'; btn.style.zIndex = '999';
+  if (recNoCount === 1) document.getElementById('rec-no-count').textContent = 'Hmm, try again? 😏';
+  if (recNoCount === 3) document.getElementById('rec-no-count').textContent = 'The button keeps running away... 🏃';
+  if (recNoCount >= 5) {
+    document.getElementById('rec-ask-emoji').textContent = '🥹';
+    document.getElementById('rec-ask-msg').textContent = 'Come on!! You know you want to say yes 🥺💕';
+  }
+}
+
+function recSayYes() {
+  document.getElementById('rec-ask-result').style.display = 'block';
+  document.getElementById('rec-yes-btn').disabled = true;
+  document.getElementById('rec-no-btn').style.display = 'none';
+  document.getElementById('rec-ask-emoji').textContent = '🥰';
+  document.getElementById('rec-ask-msg').textContent = 'I am SO happy right now!!! 💃🕺';
+  if (state.plan === 'premium' || state.features?.confetti) launchConfetti(120);
+  else launchConfetti(60);
+}
+
+/* ════════════════════════════════════
+   CONFETTI
+════════════════════════════════════ */
+function launchConfetti(n) {
+  const colors = ['#D6446A','#F9A8D4','#FFD700','#7ED6DF','#BADC58','#FF9FF3'];
+  const c = document.getElementById('confetti-c');
+  for (let i = 0; i < n; i++) {
+    const p = document.createElement('div');
+    p.className = 'conf-p';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    p.style.width  = (Math.random() * 8 + 5) + 'px';
+    p.style.height = (Math.random() * 8 + 5) + 'px';
+    p.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    p.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+    p.style.animationDelay    = (Math.random() * 1.5) + 's';
+    c.appendChild(p);
+    setTimeout(() => p.remove(), 4000);
+  }
+}
+
+/* ════════════════════════════════════
+   RECIPIENT — LOVE LETTER
+════════════════════════════════════ */
+const LETTERS = [
+  (b, g) => `My dearest ${g},
+
+Every single morning, the first thought that crosses my mind is you. Your smile has this incredible way of making the whole world feel lighter, and your laugh — oh, your laugh is the most beautiful sound I've ever heard.
+
+I never believed in the kind of love they write songs about. Then you walked in, and I understood every lyric.
+
+I don't have all the right words, but I know this — you are the best thing that has ever happened to me. And I will spend every day making sure you feel that.
+
+Yours, always and completely,`,
+
+  (b, g) => `To my forever ${g},
+
+I keep a list in my heart of every tiny thing you do that makes me fall for you all over again. The way you tilt your head when you're thinking. The way you laugh at your own jokes before the punchline. The way you make even the most ordinary Tuesday feel like an adventure.
+
+This world is big and sometimes terrifying, but every single thing is better — truly better — because you exist in it.
+
+I love you more than words could ever hold,`,
+
+  (b, g) => `Dearest ${g},
+
+If I could travel back in time to the moment I first saw you, I'd fall in love with you all over again. Probably faster.
+
+You are the kind of person I want beside me for the greatest moments and the hardest days. I want to share sunsets and terrible movies and late-night snacks and big dreams — all of it — with you.
+
+Thank you for being exactly who you are. Don't change a single thing.
+
+Loving you always,`,
+];
+
+function recRenderLetter() {
+  const d = new Date();
+  document.getElementById('rec-letter-date').textContent =
+    d.toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' });
+  document.getElementById('rec-letter-body').textContent =
+    LETTERS[recLetterIdx](recBoyName, recGirlName);
+}
+function recNextLetter() {
+  recLetterIdx = (recLetterIdx + 1) % LETTERS.length;
+  recRenderLetter();
+}
+function recCopyLetter() {
+  const text = document.getElementById('rec-letter-body').textContent +
+    '\n\nWith all my love,\n' + recBoyName;
+  navigator.clipboard.writeText(text).then(() => showToast('Letter copied! 💌'));
+}
+
+/* ════════════════════════════════════
+   RECIPIENT — DATE PLANNER
+════════════════════════════════════ */
+function recGenerateDateCard() {
+  const d = document.getElementById('rec-p-date').value;
+  const t = document.getElementById('rec-p-time').value;
+  const v = document.getElementById('rec-p-venue').value || 'TBD';
+  const vibe = document.getElementById('rec-p-vibe').value;
+  const note = document.getElementById('rec-p-note').value;
+  if (!d) { showToast('Please pick a date! 📅'); return; }
+
+  const emoji = vibe.split(' ')[0];
+  document.getElementById('rec-dp-emoji').textContent = emoji;
+  document.getElementById('rec-dp-vibe').textContent  = vibe.split(' ').slice(1).join(' ');
+  document.getElementById('rec-dp-date').textContent  =
+    new Date(d + 'T' + t).toLocaleDateString('en-IN',
+      { weekday:'long', day:'numeric', month:'long', year:'numeric' }) + ' at ' + t;
+  document.getElementById('rec-dp-venue').textContent = '📍 ' + v;
+  document.getElementById('rec-dp-note').textContent  = note ? '💬 "' + note + '"' : '';
+  document.getElementById('rec-date-preview').style.display = 'block';
+  document.getElementById('rec-date-preview').scrollIntoView({ behavior:'smooth', block:'center' });
+  launchConfetti(40);
+}
+
+/* ════════════════════════════════════
+   RECIPIENT — COUNTDOWN
+════════════════════════════════════ */
+function recStartCountdown() {
+  const val = document.getElementById('rec-cd-target').value;
+  if (!val) return;
+  const target = new Date(val).getTime();
+  if (recCdInterval) clearInterval(recCdInterval);
+  recCdInterval = setInterval(() => {
+    const diff = target - Date.now();
+    if (diff <= 0) {
+      clearInterval(recCdInterval);
+      ['d','h','m','s'].forEach(u => document.getElementById('rec-cd-' + u).textContent = '🎉');
+      document.getElementById('rec-cd-msg').textContent = "It's time for your date!! 💕";
+      launchConfetti(80); return;
+    }
+    const days = Math.floor(diff / 864e5);
+    const hrs  = Math.floor((diff % 864e5) / 36e5);
+    const mins = Math.floor((diff % 36e5) / 6e4);
+    const secs = Math.floor((diff % 6e4) / 1000);
+    document.getElementById('rec-cd-d').textContent = String(days).padStart(2, '0');
+    document.getElementById('rec-cd-h').textContent = String(hrs).padStart(2, '0');
+    document.getElementById('rec-cd-m').textContent = String(mins).padStart(2, '0');
+    document.getElementById('rec-cd-s').textContent = String(secs).padStart(2, '0');
+    document.getElementById('rec-cd-msg').textContent =
+      `${days} days, ${hrs} hours, ${mins} minutes and ${secs} seconds until your special moment 💖`;
+  }, 1000);
+}
+
+/* ════════════════════════════════════
+   RECIPIENT — MEMORY WALL
+════════════════════════════════════ */
+function recAddMemory() {
+  const url = document.getElementById('rec-mem-url').value.trim();
+  const cap = document.getElementById('rec-mem-cap').value.trim() || '💕 A sweet memory';
+  if (!url) return;
+  recMemories.push({ url, cap, id: Date.now() });
+  document.getElementById('rec-mem-url').value = '';
+  document.getElementById('rec-mem-cap').value = '';
+  recRenderMemories();
+}
+function recRenderMemories() {
+  const grid = document.getElementById('rec-mem-grid');
+  const empty = document.getElementById('rec-mem-empty');
+  if (!recMemories.length) { empty.style.display = 'block'; grid.innerHTML = ''; return; }
+  empty.style.display = 'none';
+  grid.innerHTML = recMemories.map(m => `
+    <div class="mem-card-rec">
+      ${(m.url.startsWith('http') || m.url.startsWith('/'))
+        ? `<img src="${m.url}" alt="${m.cap}" onerror="this.style.display='none'">`
+        : `<div class="mem-emoji-rec">${m.url}</div>`}
+      <div class="mem-caption-rec">${m.cap}</div>
+    </div>
+  `).join('');
+}
+
+/* ════════════════════════════════════
+   RECIPIENT — REASONS
+════════════════════════════════════ */
+const DEFAULT_REASONS = [
+  'Your smile lights up every room 😊',
+  'The way you laugh at silly things 🤭',
+  'How kind you are to everyone 💛',
+  'You make me a better person 🌱',
+  'Your hugs feel like home 🏡',
+];
+function recAddReason() {
+  const inp = document.getElementById('rec-reason-inp');
+  const val = inp.value.trim();
+  if (!val) return;
+  recReasons.unshift({ text: val, id: Date.now() });
+  inp.value = '';
+  recRenderReasons();
+}
+function recDeleteReason(id) {
+  recReasons = recReasons.filter(r => r.id !== id);
+  recRenderReasons();
+}
+function recRenderReasons() {
+  const list = document.getElementById('rec-reasons-list');
+  const all = recReasons.length ? recReasons : DEFAULT_REASONS.map((t, i) => ({ text: t, id: -i }));
+  list.innerHTML = all.map(r => `
+    <li>
+      <span>💖</span>
+      <span style="flex:1">${r.text}</span>
+      ${r.id > 0 ? `<button class="del-btn-rec" onclick="recDeleteReason(${r.id})">✕</button>` : ''}
+    </li>
+  `).join('');
+  const cnt = document.getElementById('rec-reasons-count');
+  cnt.textContent = recReasons.length
+    ? `${recReasons.length} reason${recReasons.length > 1 ? 's' : ''} and counting... 💕`
+    : 'Add your own reasons above! 🌸';
+}
+
+/* ════════════════════════════════════
+   RECIPIENT — QUIZ
+════════════════════════════════════ */
+const QUIZ = [
+  { q:"What's the most romantic thing to do on a first date?",
+    opts:["Fancy restaurant dinner","Sunset walk","Movie at home","Amusement park"], a:1,
+    fact:"Sunset walks are the most romantic first-date activity! 🌅" },
+  { q:"If your partner loves music, what's the perfect surprise?",
+    opts:["Concert tickets","A playlist of their fav songs","Dance class","All of the above 💕"], a:3,
+    fact:"All of these! Music lovers appreciate any musical gesture 🎵" },
+  { q:"What makes a relationship last long?",
+    opts:["Always agreeing","Good communication & trust","Expensive gifts","Never arguing"], a:1,
+    fact:"Communication and trust are the foundation of every lasting relationship 💪" },
+  { q:"The best 'thinking of you' gesture is?",
+    opts:["A text at midnight","Surprise coffee delivery","A handwritten note","Random hug from behind"], a:3,
+    fact:"Handwritten notes carry so much love — they're rare and precious! 💌" },
+  { q:"What's the key ingredient to a perfect date?",
+    opts:["Expensive location","Presence & attention","Perfect outfits","Long planning"], a:1,
+    fact:"Being fully present matters more than anything else! 👀💕" },
+  { q:"Small acts of love matter more than grand gestures?",
+    opts:["TRUE — everyday love is everything","FALSE — grand gestures win","Both equally","Depends on mood"], a:0,
+    fact:"Consistency in small acts of love builds the deepest bond 💖" },
+];
+
+function recStartQuiz() {
+  recQuizQ = 0; recQuizScore = 0;
+  const final = document.getElementById('rec-quiz-final');
+  const area  = document.getElementById('rec-quiz-area');
+  if (final) final.style.display = 'none';
+  if (area)  area.style.display  = 'block';
+  recRenderQuizQ();
+}
+function recRenderQuizQ() {
+  const progress = document.getElementById('rec-quiz-progress');
+  if (progress) progress.style.width = (recQuizQ / QUIZ.length * 100) + '%';
+  const area = document.getElementById('rec-quiz-area');
+  if (!area) return;
+  if (recQuizQ >= QUIZ.length) { recShowQuizResult(); return; }
+  const q = QUIZ[recQuizQ];
+  area.innerHTML = `
+    <div class="quiz-q-rec">Q${recQuizQ + 1}/${QUIZ.length}: ${q.q}</div>
+    <div class="quiz-opts-rec">
+      ${q.opts.map((o, i) => `<button class="quiz-opt-rec" onclick="recAnswerQuiz(${i})">${o}</button>`).join('')}
+    </div>
+    <div id="rec-quiz-fact" style="display:none;background:var(--blush);border-radius:12px;padding:0.8rem;font-style:italic;color:var(--wine);font-size:0.88rem"></div>
+  `;
+}
+function recAnswerQuiz(i) {
+  const q = QUIZ[recQuizQ];
+  const btns = document.querySelectorAll('.quiz-opt-rec');
+  btns.forEach(b => b.disabled = true);
+  btns[i].classList.add(i === q.a ? 'correct' : 'wrong');
+  btns[q.a].classList.add('correct');
+  if (i === q.a) recQuizScore++;
+  const fact = document.getElementById('rec-quiz-fact');
+  if (fact) { fact.textContent = '💡 ' + q.fact; fact.style.display = 'block'; }
+  setTimeout(() => { recQuizQ++; recRenderQuizQ(); }, 1800);
+}
+function recShowQuizResult() {
+  const area  = document.getElementById('rec-quiz-area');
+  const final = document.getElementById('rec-quiz-final');
+  const prog  = document.getElementById('rec-quiz-progress');
+  if (area)  area.style.display  = 'none';
+  if (final) final.style.display = 'block';
+  if (prog)  prog.style.width    = '100%';
+  const pct = recQuizScore / QUIZ.length;
+  let verdict;
+  if (pct === 1)   verdict = 'Perfect score! You two are made for each other 💍';
+  else if (pct >= 0.7) verdict = 'Pretty solid! Love is definitely in the air 💕';
+  else if (pct >= 0.4) verdict = 'Not bad, but maybe a few more dates will help! 😄';
+  else verdict = "You still have lots to learn about love, but that's okay! 🌱";
+  const sc = document.getElementById('rec-quiz-score');
+  const vd = document.getElementById('rec-quiz-verdict');
+  if (sc) sc.textContent = `${recQuizScore} / ${QUIZ.length}`;
+  if (vd) vd.textContent = verdict;
+  if (pct >= 0.7) launchConfetti(60);
+}
+
+/* ════════════════════════════════════
+   RECIPIENT — PLAYLIST
+════════════════════════════════════ */
+const VIBES = [
+  { name:"Dreamy", icon:"🌙", color:"#E8EAF6",
+    songs:["Perfect – Ed Sheeran","All of Me – John Legend","Thinking Out Loud – Ed Sheeran","A Thousand Years – Christina Perri","Just the Way You Are – Bruno Mars"] },
+  { name:"Cozy",   icon:"☕", color:"#FFF3E0",
+    songs:["Ho Hey – The Lumineers","Bloom – The Paper Kites","Cornerstone – Arctic Monkeys","Electric Love – BØRNS","I Will Follow You Into The Dark"] },
+  { name:"Party",  icon:"🎉", color:"#FCE4EC",
+    songs:["Can't Stop the Feeling – Justin Timberlake","Uptown Funk – Bruno Mars","Happy – Pharrell Williams","Shake It Off – Taylor Swift","Levitating – Dua Lipa"] },
+  { name:"Bollywood", icon:"🎬", color:"#F3E5F5",
+    songs:["Tum Hi Ho – Arijit Singh","Tera Ban Jaunga – Tulsi Kumar","Pehle Bhi Main – Vishal Mishra","Raabta – Arijit Singh","Ik Vaari Aa – Arijit Singh"] },
+  { name:"Indie",  icon:"🌿", color:"#E8F5E9",
+    songs:["Skinny Love – Bon Iver","The Night Will Always Win","Holocene – Bon Iver","re: Stacks – Bon Iver","Lua – Bright Eyes"] },
+  { name:"Pop Romance", icon:"💘", color:"#FCE4EC",
+    songs:["Love Story – Taylor Swift","Enchanted – Taylor Swift","Lover – Taylor Swift","Die For You – The Weeknd","Beautiful in White – Shane Filan"] },
+];
+
+function recRenderVibes() {
+  const grid = document.getElementById('rec-vibe-grid');
+  if (!grid) return;
+  grid.innerHTML = VIBES.map((v, i) => `
+    <div class="vibe-card-rec" style="background:${v.color}" onclick="recShowSongs(${i})">
+      <div class="vibe-icon-rec">${v.icon}</div>
+      <div class="vibe-name-rec">${v.name}</div>
+    </div>
+  `).join('');
+}
+function recShowSongs(i) {
+  document.querySelectorAll('.vibe-card-rec').forEach((c, j) => c.classList.toggle('vselected', j === i));
+  const v = VIBES[i];
+  const res = document.getElementById('rec-song-result');
+  if (!res) return;
+  res.innerHTML = `
+    <div style="margin-top:1.2rem;font-family:var(--ff-script);font-size:1.4rem;color:var(--rose)">
+      ${v.icon} ${v.name} Playlist
+    </div>
+    <ul class="song-list-rec">
+      ${v.songs.map((s, n) => `
+        <li>
+          <span class="song-num-rec">${n + 1}</span>
+          <span>🎵</span>
+          <span>${s}</span>
+        </li>
+      `).join('')}
+    </ul>
+    <div style="margin-top:1rem;font-size:0.78rem;color:#aaa;text-align:center">
+      Search these on Spotify or YouTube Music 🎧
+    </div>
+  `;
+}
+
+/* ════════════════════════════════════
+   INIT
+════════════════════════════════════ */
+window.addEventListener('DOMContentLoaded', () => {
+  // pre-fill plan if came from pricing
+  if (window._startPlan) { selectPlan(window._startPlan); delete window._startPlan; }
+  // set min date for planner
+  const today = new Date().toISOString().split('T')[0];
+  const rpd = document.getElementById('rec-p-date');
+  if (rpd) rpd.min = today;
+
+  // also update personalize form to show/hide features when landing
+  // and render recipient sections
+  recRenderLetter();
+  recStartQuiz();
+  recRenderVibes();
+  recRenderReasons();
+  recRenderMemories();
+});
+</script>
+</body>
+</html>
